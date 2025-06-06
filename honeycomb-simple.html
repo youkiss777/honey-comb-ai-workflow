@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ハニカムグリッド - シンプル版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&family=Noto+Sans+JP:wght@400;500;700&family=Yomogi&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #6441ff;
+      --secondary-color: #00CCCC;
+      --warning-color: #ffaa00;
+      --error-color: #ff4d4d;
+      --light-gray: #333;
+      --medium-gray: #555;
+      --dark-gray: #eee;
+      --background-color: #080808;
+      --panel-background: #111;
+      --border-color: #444;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: var(--background-color);
+      color: var(--dark-gray);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    header {
+      background-color: var(--panel-background);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    h1 {
+      font-size: 24px;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .header-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    button {
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--medium-gray);
+    }
+    
+    main {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+    
+    .editor-panel {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #222;
+    }
+    
+    svg {
+      background-color: #333;
+      border: 1px solid #444;
+    }
+    
+    .settings-panel {
+      width: 250px;
+      background-color: var(--panel-background);
+      border-right: 1px solid var(--border-color);
+      padding: 15px;
+    }
+    
+    .clipboard {
+      width: 300px;
+      background-color: var(--panel-background);
+      border-left: 1px solid var(--border-color);
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-brain"></i> AIワークフロー</h1>
+    <div class="header-controls">
+      <button id="save-button">保存</button>
+      <button id="load-button">読み込み</button>
+      <button id="execute-button">実行</button>
+      <button id="reset-button">リセット</button>
+    </div>
+  </header>
+  
+  <main>
+    <aside class="settings-panel">
+      <h2>ノード設定</h2>
+    </aside>
+    
+    <div class="editor-panel">
+      <svg id="honeycomb-container" width="800" height="600"></svg>
+    </div>
+    
+    <aside class="clipboard">
+      <h2>クリップボード</h2>
+    </aside>
+  </main>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOMContentLoaded イベントが発生しました');
+      
+      // SVG要素を取得
+      const svg = document.getElementById('honeycomb-container');
+      console.log('SVG要素:', svg);
+      
+      if (!svg) {
+        console.error('SVG要素が見つかりません');
+        return;
+      }
+      
+      // SVGの内容をクリア
+      svg.innerHTML = '';
+      
+      // テスト用に単純な図形を追加
+      const testCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      testCircle.setAttribute('cx', 400);
+      testCircle.setAttribute('cy', 300);
+      testCircle.setAttribute('r', 50);
+      testCircle.setAttribute('fill', 'red');
+      svg.appendChild(testCircle);
+      console.log('テスト用の円を追加しました');
+      
+      // 5x5のグリッドを描画
+      const rows = 5;
+      const cols = 5;
+      
+      // グリッドの中心位置
+      const centerX = 400;
+      const centerY = 300;
+      
+      // グリッドの左上の位置を計算
+      const startX = centerX - (cols * 100) / 2;
+      const startY = centerY - (rows * 100) / 2;
+      
+      // シンプルなグリッドを描画
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          // 六角形の中心座標を計算
+          const x = startX + col * 100;
+          const y = startY + row * 100 + (col % 2 === 0 ? 0 : 50);
+          
+          // シンプルな六角形を描画
+          const hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          const points = [];
+          const radius = 40;
+          
+          for (let i = 0; i < 6; i++) {
+            const angle = 2 * Math.PI / 6 * i + Math.PI/6;
+            const pointX = x + radius * Math.cos(angle);
+            const pointY = y + radius * Math.sin(angle);
+            points.push(`${pointX},${pointY}`);
+          }
+          
+          hex.setAttribute('points', points.join(' '));
+          hex.setAttribute('fill', '#555555');
+          hex.setAttribute('stroke', '#ffffff');
+          hex.setAttribute('stroke-width', '2');
+          
+          // ノードIDを表示するテキスト
+          const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          text.setAttribute('x', x);
+          text.setAttribute('y', y);
+          text.setAttribute('text-anchor', 'middle');
+          text.setAttribute('dominant-baseline', 'middle');
+          text.setAttribute('fill', '#ffffff');
+          text.setAttribute('font-size', '12px');
+          text.textContent = `${row}-${col}`;
+          
+          svg.appendChild(hex);
+          svg.appendChild(text);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
