@@ -1,0 +1,49 @@
+{
+  "name": "honey-comb-ai-workflow",
+  "version": "1.0.0",
+  "description": "🍯 Honeycomb AI Workflow Tool - 六角形グリッドベースのAIタスク管理・ワークフロー可視化システム",
+  "main": "honeycomb-grid.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx serve .",
+    "dev": "npx live-server --port=8080",
+    "build": "echo 'No build process required for static HTML/CSS/JS'",
+    "test": "echo 'No tests specified yet'"
+  },
+  "keywords": [
+    "ai",
+    "workflow",
+    "honeycomb",
+    "hexagonal",
+    "grid",
+    "visualization",
+    "task-management",
+    "claude",
+    "gpt",
+    "gemini",
+    "javascript",
+    "svg",
+    "html5",
+    "css3"
+  ],
+  "author": "youkiss777",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youkiss777/honey-comb-ai-workflow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/youkiss777/honey-comb-ai-workflow/issues"
+  },
+  "homepage": "https://github.com/youkiss777/honey-comb-ai-workflow#readme",
+  "dependencies": {
+    "openai": "^4.95.1"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
