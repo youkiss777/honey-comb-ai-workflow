@@ -94,6 +94,11 @@ HoneycombApp.initializeApp = function() {
     settingsPanel.classList.remove('collapsed');
   }
 
+  // クリップボードUIの初期化
+  if (typeof HoneycombApp.initClipboard === 'function') {
+    HoneycombApp.initClipboard();
+  }
+
   // SVG要素を確認
   const svg = document.getElementById('honeycomb-container');
   console.log('SVG要素:', svg);
