@@ -102,12 +102,43 @@
       padding: 15px;
     }
     
-    .clipboard {
-      width: 300px;
-      background-color: var(--panel-background);
-      border-left: 1px solid var(--border-color);
-      padding: 15px;
-    }
+      .clipboard {
+        width: 300px;
+        background-color: var(--panel-background);
+        border-left: 1px solid var(--border-color);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .clipboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .clipboard-button {
+        width: 24px;
+        height: 24px;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .clipboard-content {
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .clipboard-content.collapsed {
+        display: none;
+      }
   </style>
 </head>
 <body>
@@ -130,14 +161,39 @@
       <svg id="honeycomb-container" width="800" height="600"></svg>
     </div>
     
-    <aside class="clipboard">
-      <h2>クリップボード</h2>
-    </aside>
+      <aside class="clipboard">
+        <div class="clipboard-header">
+          <h2>クリップボード</h2>
+          <button class="clipboard-toggle clipboard-button" title="Toggle Clipboard">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+        </div>
+        <div class="clipboard-content">
+          <!-- Clipboard entries will appear here -->
+        </div>
+      </aside>
   </main>
   
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('DOMContentLoaded イベントが発生しました');
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOMContentLoaded イベントが発生しました');
+
+        const clipboardContent = document.querySelector('.clipboard-content');
+        const toggleButton = document.querySelector('.clipboard-toggle');
+        if (clipboardContent && toggleButton) {
+          const collapsed = localStorage.getItem('clipboardCollapsed') === 'true';
+          if (collapsed) {
+            clipboardContent.classList.add('collapsed');
+            toggleButton.innerHTML = '<i class="fas fa-chevron-down"></i>';
+          }
+          toggleButton.addEventListener('click', () => {
+            const isCollapsed = clipboardContent.classList.toggle('collapsed');
+            toggleButton.innerHTML = isCollapsed ?
+              '<i class="fas fa-chevron-down"></i>' :
+              '<i class="fas fa-chevron-up"></i>';
+            localStorage.setItem('clipboardCollapsed', isCollapsed);
+          });
+        }
       
       // SVG要素を取得
       const svg = document.getElementById('honeycomb-container');
