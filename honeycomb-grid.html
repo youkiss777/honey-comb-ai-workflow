@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honeycomb Grid Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&family=Noto+Sans+JP:wght@400;500;700&family=Yomogi&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/honeycomb-styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1><i class="fas fa-brain"></i> Honeycomb Grid Demo</h1>
+    <div class="header-controls">
+      <div class="zoom-controls">
+        <button id="zoom-in"><i class="fas fa-search-plus"></i></button>
+        <span id="zoom-level">100%</span>
+        <button id="zoom-out"><i class="fas fa-search-minus"></i></button>
+      </div>
+      <button class="save-button" id="save-button">保存</button>
+      <button class="load-button" id="load-button">読み込み</button>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <aside id="settings-panel" class="settings-panel">
+      <div class="settings-header">
+        <h2>設定</h2>
+      </div>
+      <div class="settings-content">
+        <div class="settings-group">
+          <label for="dummy-setting">Dummy</label>
+          <input id="dummy-setting" type="text" value="sample">
+        </div>
+      </div>
+      <div class="resize-handle"></div>
+    </aside>
+
+    <div class="editor-panel">
+      <div class="editor-canvas-wrapper">
+        <div class="editor-canvas-content">
+          <svg id="honeycomb-container" width="800" height="600"></svg>
+        </div>
+      </div>
+    </div>
+
+    <aside id="clipboard" class="clipboard">
+      <div class="clipboard-header">
+        <h2>クリップボード</h2>
+        <div class="clipboard-controls">
+          <button class="clipboard-button" id="clipboard-save"><i class="fas fa-save"></i></button>
+          <button class="clipboard-button" id="clipboard-load"><i class="fas fa-folder-open"></i></button>
+        </div>
+      </div>
+      <div class="project-prompt-container">
+        <div class="project-prompt-header">プロンプト</div>
+        <textarea id="project-prompt-textarea"></textarea>
+      </div>
+      <div class="clipboard-content">
+        <div class="clipboard-entry" data-node-id="sample">
+          <div class="clipboard-entry-header">
+            <span class="entry-type">Sample</span>
+            <span class="entry-timestamp">2023-01-01</span>
+          </div>
+          <textarea class="clipboard-textarea">Sample text</textarea>
+          <div class="button-group">
+            <button class="copy-button"><i class="fas fa-copy"></i></button>
+            <button class="delete-button"><i class="fas fa-trash-alt"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="resize-handle"></div>
+    </aside>
+  </div>
+
+  <script src="js/honeycomb-core.js"></script>
+  <script src="js/honeycomb-grid.js"></script>
+  <script src="js/honeycomb-ui.js"></script>
+  <script src="js/honeycomb-storage.js"></script>
+  <script src="js/honeycomb-clipboard.js"></script>
+</body>
+</html>
