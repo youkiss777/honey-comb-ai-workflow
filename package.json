@@ -36,9 +36,7 @@
     "url": "https://github.com/youkiss777/honey-comb-ai-workflow/issues"
   },
   "homepage": "https://github.com/youkiss777/honey-comb-ai-workflow#readme",
-  "dependencies": {
-    "openai": "^4.95.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "live-server": "^1.2.2",
     "serve": "^14.2.0"
